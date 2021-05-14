@@ -44,7 +44,7 @@ public class AuthResources {
 		String authKey = (String) userMap.get("authKey");
 		String platform = (String) userMap.get("platform");
 		
-		AuthKey ret = authService.validateAuthKey(authKey, platform);
+		AuthKey ret = authService.authenticateKey(authKey, platform);
 		
 		Map<String,String> map = new HashMap<>();
 		

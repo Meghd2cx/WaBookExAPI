@@ -23,7 +23,20 @@ public class AuthRepositoryImpl implements AuthRepository {
 	JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public AuthKey authenticate(String authKey, String platform) throws EtAuthException {
+	public AuthKey authenticateKey(String authKey, String platform) throws EtAuthException {
+		try {
+			AuthKey retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, authKeyRowMapper);
+			
+			return retAuthKey;
+		}
+		catch(Exception e) {
+			//e.printStackTrace();
+			throw new EtAuthException("Invalid authKey. Failed to authenticate.");
+		}
+	}
+	
+	@Override
+	public AuthKey authenticateKey(String authKey) throws EtAuthException {
 		try {
 			AuthKey retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, authKeyRowMapper);
 			
@@ -56,7 +69,18 @@ public class AuthRepositoryImpl implements AuthRepository {
 		}
 		
 	}
-
+	
+	public boolean authenticate(String authKey) {
+		try {
+				AuthKey retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, authKeyRowMapper);			
+				
+				return true;
+			}
+			catch(Exception e) {
+				//e.printStackTrace();
+				throw new EtAuthException("Invalid authKey. Failed to authenticate.");
+			}
+	}
 	
 	private RowMapper<AuthKey> authKeyRowMapper = ((rs, rowNum) -> {
 		return new AuthKey(rs.getString("AUTH_KEY"), rs.getString("PLATFORM"));

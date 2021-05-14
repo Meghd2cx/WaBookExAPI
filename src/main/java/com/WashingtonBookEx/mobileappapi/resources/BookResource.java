@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.WashingtonBookEx.mobileappapi.domain.Book;
@@ -23,26 +24,26 @@ public class BookResource {
 	@Autowired
 	BookService bookService;
 	@PostMapping("/getBooks")
-	public List<Book> getBooks(){
-		return bookService.getBooks();
+	public List<Book> getBooks(@RequestParam(required = true) String authKey){
+		return bookService.getBooks(authKey);
 	}
 	
 	@PostMapping("/getMyBooks")
-	public List<Book> getMyBooks(@RequestBody Map<String,Object> responseMap){
+	public List<Book> getMyBooks(@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> responseMap){
 		int userID = (int) responseMap.get("userID");
 		
 		return bookService.getMyBooks(userID);
 	}
 	
 	@PostMapping("/requestBook")
-	public Book requestBook(@RequestBody Map<String, Object> requestMap){
+	public Book requestBook(@RequestParam(required = true) String authKey, @RequestBody Map<String, Object> requestMap){
 		int bookID =  (int) requestMap.get("bookID");
 		int requesterID = (int) requestMap.get("requesterID");
 		return bookService.requestBook(bookID,requesterID);
 	}
 
 	@PostMapping("/donateBook")
-	public Book donateBook (@RequestBody Map<String,Object> bookMap) {
+	public Book donateBook (@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> bookMap) {
 		String bookName = (String)bookMap.get("bookName");
 		int currentUserID = (int) bookMap.get("currentUserID");
 		String status = (String) bookMap.get("status");

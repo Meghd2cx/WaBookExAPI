@@ -7,7 +7,7 @@ import com.WashingtonBookEx.mobileappapi.domain.Book;
 public interface BookService {
 
 	
-	List<Book> getBooks();
+	List<Book> getBooks(String authKey);
 	
 	Book requestBook(int bookID, int requesterID);
 

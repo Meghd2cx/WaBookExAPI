@@ -9,7 +9,7 @@ public interface UserRepository {
 	
 	//Integer create(String username, String firstName, String lastName, String email, int age, String password, String streetAddress, String city, String county, String state, String schoolName) throws EtAuthException;
 	
-	Integer create(User inputUser) throws EtAuthException;
+	Integer registerUser(User inputUser) throws EtAuthException;
 	
 	User findByEmailAndPassword(String email, String password) throws EtAuthException;
 	
@@ -18,6 +18,8 @@ public interface UserRepository {
 	User findById(Integer userID);
 	
 	AuthKey authenticateKey(String authKey, String platform);
+
+	boolean authenticateKey(String authKey);
 	
 	
 	

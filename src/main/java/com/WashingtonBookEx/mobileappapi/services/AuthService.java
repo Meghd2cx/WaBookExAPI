@@ -6,6 +6,6 @@ public interface AuthService {
 
 	AuthKey addAuthKey (String authKey, String platform);
 	
-	AuthKey validateAuthKey (String authKey, String platform);
+	AuthKey authenticateKey (String authKey, String platform);
 	
 }

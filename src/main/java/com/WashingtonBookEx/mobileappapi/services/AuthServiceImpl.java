@@ -21,7 +21,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public AuthKey validateAuthKey(String authKey, String platform)
+	public AuthKey authenticateKey(String authKey, String platform)
 			throws EtAuthException{
 		
 		System.out.println(authKey+""+platform);
@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 		}
 		
 		if(isVerifiedPlatform) {
-			AuthKey ret = authRepository.authenticate(authKey, platform);
+			AuthKey ret = authRepository.authenticateKey(authKey, platform);
 			
 			return ret;
 		}

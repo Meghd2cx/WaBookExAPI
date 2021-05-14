@@ -34,8 +34,7 @@ public class UserRepositoryImpl implements UserRepository{
 	@Autowired
 	JdbcTemplate  jdbcTemplate;
 	
-	@Override
-	public Integer create(User inputUser)
+	public Integer registerUser(User inputUser)
 			throws EtAuthException {
 		String hashedPassword = BCrypt.hashpw(inputUser.getPassword(), BCrypt.gensalt(10));
 		try {
@@ -75,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository{
 			User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[] {email}, userRowMapper);
 			if(!BCrypt.checkpw(password, user.getPassword()))
 				throw new EtAuthException("Invalid email/password");
-			System.out.println("User:" + email + "signed in");
+			System.out.println("User:" + email + " signed in");
 			return user;
 		}
 		catch(Exception e) {
@@ -123,6 +122,18 @@ public class UserRepositoryImpl implements UserRepository{
 		
 	}
 	
+	public boolean authenticateKey(String authKey) {
+		try {
+				AuthKey retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, authKeyRowMapper);			
+				
+				return true;
+			}
+			catch(Exception e) {
+				//e.printStackTrace();
+				throw new EtAuthException("Invalid authKey. Failed to authenticate.");
+			}
+	}
+
 	private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
 		return new User(rs.getInt("USER_ID"),rs.getString("USER_NAME"),rs.getString("FIRST_NAME"),
 				rs.getString("LAST_NAME"), rs.getString("EMAIL"), rs.getDate("BIRTHDATE"), rs.getString("PASSWORD"), rs.getString("STREETADDRESS"), 

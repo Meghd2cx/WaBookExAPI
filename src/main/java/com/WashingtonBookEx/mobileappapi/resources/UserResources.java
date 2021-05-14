@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.WashingtonBookEx.mobileappapi.domain.User;
@@ -32,13 +33,14 @@ public class UserResources {
 	AuthService authService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<Map<String,Object>> loginUser (@RequestBody Map<String, Object> userMap){
+	public ResponseEntity<Map<String,Object>> loginUser (@RequestParam(required = true) String authKey,@RequestBody Map<String, Object> userMap){
 		String email = (String) userMap.get("email");
 		String password = (String) userMap.get("password");
-		String authKey = (String) userMap.get("authKey");
-		String platform = (String) userMap.get("platform");
+		//String authKey = (String) userMap.get("authKey");
+		//String platform = (String) userMap.get("platform");
+		System.out.println("Query: " + userMap.toString());
+		User user = userService.validateUser(email, password, authKey);
 		
-		User user = userService.validateUser(email, password, authKey, platform);
 		Map<String,Object> map = new HashMap<>();
 	
 		map.put("message", "loggedIn successfully");
@@ -59,12 +61,11 @@ public class UserResources {
 	}
 	
 	@PostMapping("/register")
-	public User registerUser(@RequestBody Map<String,Object> userMap) throws ParseException {
+	public User registerUser(@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> userMap) throws ParseException {
 		String username = (String) userMap.get("username");
 		String firstName = (String) userMap.get("firstName");
 		String lastName = (String) userMap.get("lastName");
 		String email = (String) userMap.get("email");
-		//Date birthDate =  (Date)userMap.get("birthdate");
 		Date birthDate = new SimpleDateFormat("MM/dd/yyyy").parse((String) userMap.get("birthdate"));  
 		String password = (String) userMap.get("password");
 		String streetAddress = (String) userMap.get("streetAddress");
@@ -72,20 +73,11 @@ public class UserResources {
 		String county = (String) userMap.get("county");
 		String state = (String) userMap.get("state");
 		String schoolName = (String) userMap.get("schoolName");
-		String authKey = (String) userMap.get("authKey");
-		String platform = (String) userMap.get("platform");
+		//String authKey = (String) userMap.get("authKey");
+		//String platform = (String) userMap.get("platform");
 		
-//		try {
-//			authService.validateAuthKey(authKey,platform);
-//		}
-//		catch(Exception e){
-//			Map<String,String> map = new HashMap<>();
-//			map.put("message","Invalid authKey.");
-//			
-//			return new ResponseEntity<>(map,HttpStatus.UNAUTHORIZED);
-//		}
 		User inputUser = new User(username,firstName,lastName,email,birthDate,password,streetAddress,city,county,state,schoolName);
-		User user = userService.registerUser(inputUser, authKey, platform);
+		User user = userService.registerUser(inputUser, authKey);
 		Map<String,String> map = new HashMap<>();
 		//map.put("message","registered successfully");
 		

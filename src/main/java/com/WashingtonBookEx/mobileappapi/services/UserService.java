@@ -10,4 +10,8 @@ public interface UserService {
 	
 	User registerUser(User inputUser, String authKey, String platform);
 
+	User registerUser(User inputUser, String authKey);
+
+	User validateUser(String email, String password, String authKey);
+
 }

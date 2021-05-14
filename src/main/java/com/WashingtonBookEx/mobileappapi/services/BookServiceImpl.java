@@ -14,7 +14,7 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	BookRepository bookRepository;
 	
-	public List<Book> getBooks() {
+	public List<Book> getBooks(String authKey) {
 			List<Book> books = bookRepository.getBooks();
 		return books;
 	}
