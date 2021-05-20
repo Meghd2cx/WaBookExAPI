@@ -33,11 +33,10 @@ public class UserResources {
 	AuthService authService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<Map<String,Object>> loginUser (@RequestParam(required = true) String authKey,@RequestBody Map<String, Object> userMap){
+	public ResponseEntity<Map<String,Object>> loginUser (@RequestParam(required = true) String authKey,
+			@RequestBody Map<String, Object> userMap){
 		String email = (String) userMap.get("email");
 		String password = (String) userMap.get("password");
-		//String authKey = (String) userMap.get("authKey");
-		//String platform = (String) userMap.get("platform");
 		System.out.println("Query: " + userMap.toString());
 		User user = userService.validateUser(email, password, authKey);
 		
@@ -55,13 +54,15 @@ public class UserResources {
 		map.put("county", user.getCounty());
 		map.put("state", user.getState());
 		map.put("schoolName", user.getSchoolName());
+		map.put("isTeacher", user.getIsTeacher());
 		
 		
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
 	@PostMapping("/register")
-	public User registerUser(@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> userMap) throws ParseException {
+	public User registerUser(@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> userMap) 
+			throws ParseException {
 		String username = (String) userMap.get("username");
 		String firstName = (String) userMap.get("firstName");
 		String lastName = (String) userMap.get("lastName");
@@ -73,12 +74,11 @@ public class UserResources {
 		String county = (String) userMap.get("county");
 		String state = (String) userMap.get("state");
 		String schoolName = (String) userMap.get("schoolName");
-		//String authKey = (String) userMap.get("authKey");
-		//String platform = (String) userMap.get("platform");
-		
-		User inputUser = new User(username,firstName,lastName,email,birthDate,password,streetAddress,city,county,state,schoolName);
+		boolean isTeacher = (boolean) userMap.get("isTeacher");
+				
+		User inputUser = new User(username,firstName,lastName,email,birthDate,password,streetAddress,city,county,state,schoolName,isTeacher);
 		User user = userService.registerUser(inputUser, authKey);
-		Map<String,String> map = new HashMap<>();
+		//Map<String,String> map = new HashMap<>();
 		//map.put("message","registered successfully");
 		
 		return user;

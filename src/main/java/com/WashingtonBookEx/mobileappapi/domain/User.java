@@ -9,7 +9,6 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	//private int age;
 	private Date birthDate;
 	private String password;
 	private String streetAddress;
@@ -17,24 +16,9 @@ public class User {
 	private String county;
 	private String state;
 	private String schoolName;
+	private boolean isTeacher;
 	
 
-//	public User(Integer userID, String username, String firstName, String lastName, String email, int age,
-//			String password, String streetAddress, String city, String county, String state, String schoolName) {
-//		super();
-//		this.userID = userID;
-//		this.username = username;
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.email = email;
-//		this.age = age;
-//		this.password = password;
-//		this.streetAddress = streetAddress;
-//		this.city = city;
-//		this.state = state;
-//		this.schoolName = schoolName;
-//	}
-	
 	public User(String username, String firstName, String lastName, String email, Date birthDate, 
 			String password, String streetAddress, String city, String county, String state, String schoolName) {
 		super();
@@ -51,9 +35,27 @@ public class User {
 		this.birthDate = birthDate;
 	}
 	
+	public User(String username, String firstName, String lastName, String email, Date birthDate, 
+			String password, String streetAddress, String city, String county, String state, 
+			String schoolName, boolean isTeacher) {
+		super();
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.streetAddress = streetAddress;
+		this.city = city;
+		this.county = county;
+		this.state = state;
+		this.schoolName = schoolName;
+		this.birthDate = birthDate;
+		this.isTeacher = isTeacher;
+	}
+	
 	public User (int userID, String username, String firstName, String lastName, String email, 
 			Date birthDate, String password, String address, String city, String county, String state, 
-			String schoolName) {
+			String schoolName, boolean isTeacher) {
 		this.userID = userID;
 		this.username = username;
 		this.firstName = firstName;
@@ -66,6 +68,7 @@ public class User {
 		this.county = county;
 		this.state = state;
 		this.schoolName = schoolName;
+		this.isTeacher = isTeacher;
 	}
 
 	public String getCounty() {
@@ -172,7 +175,12 @@ public class User {
 		return this.birthDate;
 	}
 	
+	public void setIsTeacher(boolean isTeacher) {
+		this.isTeacher = isTeacher;
+	}
 	
+	public boolean getIsTeacher() {
+		return this.isTeacher;
+	}
 	
-
 }

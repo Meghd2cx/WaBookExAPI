@@ -17,11 +17,4 @@ public interface UserRepository {
 	
 	User findById(Integer userID);
 	
-	AuthKey authenticateKey(String authKey, String platform);
-
-	boolean authenticateKey(String authKey);
-	
-	
-	
-	
 }

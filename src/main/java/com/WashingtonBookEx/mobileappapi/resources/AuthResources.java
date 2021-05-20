@@ -24,33 +24,26 @@ public class AuthResources {
 	AuthService authService;
 	
 	@PostMapping("/initAuthKey")
-	public ResponseEntity<Map<String,String>> initAuthKey (@RequestBody Map<String, Object> userMap){
+	public ResponseEntity<Map<String,Object>> initAuthKey (@RequestBody Map<String, Object> userMap){
 		String authKey = (String) userMap.get("authKey");
-		String platform = (String) userMap.get("platform");
-		
-		AuthKey ret = authService.addAuthKey(authKey, platform);
+		String email = (String) userMap.get("email");
+		String password = (String) userMap.get("password");
+		AuthKey retKey = authService.addAuthKey(email, password, authKey);
 				
-		Map<String,String> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<>();
 		
-		map.put("message", "Key Added");
-		map.put("authKey", ret.getAuthKeyValue());
-		map.put("platform", ret.getPlatform());
+		map.put("UserID", retKey.getUserID());
+		map.put("AuthKey", retKey.getAuthKeyValue());
 		
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 	
 	@PostMapping("/authenticateKey")
 	public ResponseEntity<Map<String,String>> authenticateKey (@RequestBody Map<String,Object> userMap){
 		String authKey = (String) userMap.get("authKey");
-		String platform = (String) userMap.get("platform");
-		
-		AuthKey ret = authService.authenticateKey(authKey, platform);
+		Boolean isAuth = authService.authenticateKey(authKey);
 		
 		Map<String,String> map = new HashMap<>();
-		
-		map.put("message","Key Authenticated");
-		map.put("authKey", ret.getAuthKeyValue());
-		map.put("platform", ret.getPlatform());
 		
 		return new ResponseEntity<>(map,HttpStatus.OK);
 		

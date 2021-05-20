@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
+import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
 import com.WashingtonBookEx.mobileappapi.repositories.AuthRepository;
+import com.WashingtonBookEx.mobileappapi.repositories.UserRepository;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -13,34 +15,32 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	AuthRepository authRepository;
 	
+	@Autowired
+	UserService userService;
+	
 	 
 	@Override
-	public AuthKey addAuthKey(String authKey, String platform) {
-		AuthKey ret = authRepository.addAuthKey(authKey, platform);
-		return ret;
+	public AuthKey addAuthKey(String email, String password, String authKey) throws EtAuthException{
+		try {
+			User owner = userService.validateUser(email, password);
+			return authRepository.addAuthKey(owner.getUserID(), authKey); 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new EtAuthException("Failed to add Authentication Key");
+		}
 	}
 
 	@Override
-	public AuthKey authenticateKey(String authKey, String platform)
+	public Boolean authenticateKey(String authKey)
 			throws EtAuthException{
 		
-		System.out.println(authKey+""+platform);
+		System.out.println(authKey);
 
-		String[] verifiedPlatforms = {"android","ios","web"};
-		boolean isVerifiedPlatform = false;
-		for(int i = 0; i < verifiedPlatforms.length; i++) {
-			if(!isVerifiedPlatform) {
-				if(platform.equals(verifiedPlatforms[i]))
-					isVerifiedPlatform = true;
-			}
+		try{
+			return authRepository.authenticateKey(authKey);
 		}
-		
-		if(isVerifiedPlatform) {
-			AuthKey ret = authRepository.authenticateKey(authKey, platform);
-			
-			return ret;
-		}
-		else {
+		catch(Exception exception) {
 			throw new EtAuthException ("Platform not verfied");
 		}
 		

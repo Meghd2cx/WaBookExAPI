@@ -32,14 +32,14 @@ public class BookResource {
 	public List<Book> getMyBooks(@RequestParam(required = true) String authKey, @RequestBody Map<String,Object> responseMap){
 		int userID = (int) responseMap.get("userID");
 		
-		return bookService.getMyBooks(userID);
+		return bookService.getMyBooks(userID, authKey);
 	}
 	
 	@PostMapping("/requestBook")
 	public Book requestBook(@RequestParam(required = true) String authKey, @RequestBody Map<String, Object> requestMap){
 		int bookID =  (int) requestMap.get("bookID");
 		int requesterID = (int) requestMap.get("requesterID");
-		return bookService.requestBook(bookID,requesterID);
+		return bookService.requestBook(bookID,requesterID,authKey);
 	}
 
 	@PostMapping("/donateBook")
@@ -60,6 +60,6 @@ public class BookResource {
 		}
 		
 		Book donBook = new Book(-1,bookName,currentUserID,status,subject,publishingCompany,condition,additionalInfo,donatorID);
-		return bookService.donateBook(donBook);
+		return bookService.donateBook(donBook,authKey);
 	}
 }

@@ -4,10 +4,7 @@ import com.WashingtonBookEx.mobileappapi.exceptions.*;
 
 public interface AuthRepository {
 
+	boolean authenticateKey(String authKey) throws EtAuthException;
 	
-	AuthKey authenticateKey(String authKey, String platform) throws EtAuthException;
-	
-	AuthKey authenticateKey(String authKey) throws EtAuthException;
-	
-	AuthKey addAuthKey(String authKey, String platform) throws EtAuthException;
+	AuthKey addAuthKey(int userID, String authKey) throws EtAuthException;
 }
