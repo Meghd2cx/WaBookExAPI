@@ -28,7 +28,11 @@ public class AuthResources {
 		String authKey = (String) userMap.get("authKey");
 		String email = (String) userMap.get("email");
 		String password = (String) userMap.get("password");
-		AuthKey retKey = authService.addAuthKey(email, password, authKey);
+		AuthKey retKey = null;
+		if(authKey != null) 
+			retKey = authService.addAuthKey(email, password, authKey);
+		else
+			retKey = authService.addAuthKey(email, password);
 				
 		Map<String,Object> map = new HashMap<>();
 		
