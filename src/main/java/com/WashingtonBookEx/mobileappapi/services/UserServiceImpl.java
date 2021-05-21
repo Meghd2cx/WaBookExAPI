@@ -19,36 +19,50 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
 	AuthRepository authRepository;
 	
 	@Override
-	public User validateUser(String email, String password, String authKey, String platform) throws EtAuthException {
-		if(email != null) email = email.toLowerCase();
+	public User validateUser(String email, String password, String authKey) {
+		if (authRepository.authenticateKey(authKey)) {
 		
-		userRepository.authenticateKey(authKey, platform);
+			if(email != null) email = email.toLowerCase();
+			return userRepository.findByEmailAndPassword(email, password);	 
+		}
 		
-		return userRepository.findByEmailAndPassword(email, password);
+		throw new EtAuthException("Invalid authKey. Failed to authenticate user login.");
+		
 	}
-
+	
+	public User validateUser(String email, String password) {
+		//userRepository.authenticateKey(authKey);
+		
+		if(email != null) email = email.toLowerCase();
+	
+		return userRepository.findByEmailAndPassword(email, password);	 
+	}
 
 	@Override
-	public User registerUser(User inputUser, String authKey, String platform) throws EtAuthException {
-		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+	public User registerUser(User inputUser, String authKey) {
+		if(authRepository.authenticateKey(authKey)) {
 		
-		if(inputUser.getEmail() != null) inputUser.setEmail(inputUser.getEmail().toLowerCase());
+			Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 		
-		if(!pattern.matcher(inputUser.getEmail()).matches()) throw new EtAuthException("Invalid Email Format");
+			if(inputUser.getEmail() != null) inputUser.setEmail(inputUser.getEmail().toLowerCase());
+			if(!pattern.matcher(inputUser.getEmail()).matches()) throw new EtAuthException("Invalid Email Format");
 		
-		Integer count = userRepository.getCountByEmail(inputUser.getEmail());
+			Integer count = userRepository.getCountByEmail(inputUser.getEmail());
 		
-		if (count > 0) throw new EtAuthException("Email already in use");
-	
-		userRepository.authenticateKey(authKey, platform);
+			if (count > 0) throw new EtAuthException("Email already in use");
 		
-		Integer userID = userRepository.create(inputUser);
-		return userRepository.findById(userID);
+			Integer userID = userRepository.registerUser(inputUser);
+			return userRepository.findById(userID);
+		}
+		
+		else {
+			throw new EtAuthException("Invalid authKey. Failed to register new user.");
+		}
+		
 	}
-	
-	 
 
 }

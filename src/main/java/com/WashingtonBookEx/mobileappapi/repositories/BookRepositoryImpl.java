@@ -127,5 +127,4 @@ public class BookRepositoryImpl implements BookRepository {
 						rs.getString("CURRENT_CONDITION"),rs.getString("IMAGE_URL"),rs.getString("ADDITIONAL_NOTES"),rs.getInt("DONATOR_ID"));
 		});
 
-	
 }

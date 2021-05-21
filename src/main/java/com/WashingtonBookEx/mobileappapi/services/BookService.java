@@ -5,14 +5,13 @@ import java.util.List;
 import com.WashingtonBookEx.mobileappapi.domain.Book;
 
 public interface BookService {
-
 	
-	List<Book> getBooks();
+	List<Book> getBooks(String authKey);
 	
-	Book requestBook(int bookID, int requesterID);
+	Book requestBook(int bookID, int requesterID, String authKey);
 
-	Book donateBook(Book donBook);
+	Book donateBook(Book donBook, String authKey);
 
-	List<Book> getMyBooks(int userID);
+	List<Book> getMyBooks(int userID, String authKey);
 	
 }

@@ -4,27 +4,32 @@ public class AuthKey {
 
 	
 	private String authKeyValue;
-	private String platform;
-	public AuthKey(String authKey, String platform) {
+	private int userID;
+	
+	public AuthKey(int userID, String authKey) {
 		super();
 		this.authKeyValue = authKey;
-		this.platform = platform;
+		this.userID = userID;
 	}
+	
 	public String getAuthKeyValue() {
 		return authKeyValue;
 	}
+	
 	public void setAuthKeyValue(String authKey) {
 		this.authKeyValue = authKey;
 	}
-	public String getPlatform() {
-		return platform;
+	
+	public int getUserID() {
+		return this.userID;
 	}
-	public void setPlatform(String platform) {
-		this.platform = platform;
+	
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 	
 	public String toString() {
-		return "{"+this.authKeyValue+","+this.platform+"}";
+		return "{"+this.authKeyValue+","+this.userID+"}";
 	}
 	
 }

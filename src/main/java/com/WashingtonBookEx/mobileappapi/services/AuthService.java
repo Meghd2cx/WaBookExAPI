@@ -4,8 +4,10 @@ import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
 
 public interface AuthService {
 
-	AuthKey addAuthKey (String authKey, String platform);
+	AuthKey addAuthKey (String username, String password,String authKey);
 	
-	AuthKey validateAuthKey (String authKey, String platform);
+	AuthKey addAuthKey (String username, String password);
+	
+	Boolean authenticateKey (String authKey);
 	
 }

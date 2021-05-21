@@ -16,18 +16,19 @@ import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
 public class AuthRepositoryImpl implements AuthRepository {
 
 	
-	private static final String SQL_AUTHENTICATE = "SELECT * FROM apiAuthKeys WHERE AUTH_KEY = ?";
-	private static final String SQL_ADD_AUTH_KEY = "INSERT INTO apiAuthKeys (AUTH_KEY,PLATFORM) VALUES (?,?)";
-	
+	private static final String SQL_AUTHENTICATE = "SELECT AUTH_KEY FROM apiAuthKeys WHERE AUTH_KEY = ?";
+	private static final String SQL_ADD_AUTH_KEY_USERID = "INSERT INTO apiAuthKeys (USERID, AUTH_KEY) VALUES (?,?)";
+	private static final String SQL_ADD_AUTH_KEY = "INSERT INTO apiAuthKeys (AUTH_KEY) VALUES (?)";
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
+		
 	@Override
-	public AuthKey authenticate(String authKey, String platform) throws EtAuthException {
+	public boolean authenticateKey(String authKey) throws EtAuthException {
 		try {
-			AuthKey retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, authKeyRowMapper);
 			
-			return retAuthKey;
+			String retAuthKey = jdbcTemplate.queryForObject(SQL_AUTHENTICATE,new Object[] {authKey}, String.class);
+			return true;
 		}
 		catch(Exception e) {
 			//e.printStackTrace();
@@ -36,30 +37,28 @@ public class AuthRepositoryImpl implements AuthRepository {
 	}
 
 	@Override
-	public AuthKey addAuthKey(String authKey, String platform) throws EtAuthException {
+	public AuthKey addAuthKey(int userID, String authKey) throws EtAuthException {
 		//String hashedKey = BCrypt.hashpw(authKey, BCrypt.gensalt(10));
 		try {
 			jdbcTemplate.update(connection -> {
-				PreparedStatement ps = connection.prepareStatement(SQL_ADD_AUTH_KEY);
-				ps.setString(1, authKey);
-				ps.setString(2, platform);
+				PreparedStatement ps = connection.prepareStatement(SQL_ADD_AUTH_KEY_USERID);
+				ps.setInt(1, userID);
+				ps.setString(2, authKey);
 				System.out.println("\n"+ps.toString());
 				return ps;
 			});
-			
-			return new AuthKey(authKey,platform);
+			return new AuthKey(userID, authKey);
 		}
 		
 		catch(Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			throw new EtAuthException("Invalid details. Failed to add authKey");
 		}
 		
 	}
-
-	
+		
 	private RowMapper<AuthKey> authKeyRowMapper = ((rs, rowNum) -> {
-		return new AuthKey(rs.getString("AUTH_KEY"), rs.getString("PLATFORM"));
+		return new AuthKey(rs.getInt("AUTH_KEY"),rs.getString("USERID"));
 	});
 	
 }
