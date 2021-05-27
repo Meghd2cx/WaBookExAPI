@@ -3,9 +3,9 @@ package com.WashingtonBookEx.mobileappapi.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.User;
 import com.WashingtonBookEx.mobileappapi.repositories.AuthRepository;
 import com.WashingtonBookEx.mobileappapi.repositories.UserRepository;
 

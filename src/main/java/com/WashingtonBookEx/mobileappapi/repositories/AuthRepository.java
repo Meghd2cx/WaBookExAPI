@@ -1,6 +1,6 @@
 package com.WashingtonBookEx.mobileappapi.repositories;
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
 import com.WashingtonBookEx.mobileappapi.exceptions.*;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
 
 public interface AuthRepository {
 

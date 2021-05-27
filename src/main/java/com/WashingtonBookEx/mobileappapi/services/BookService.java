@@ -2,7 +2,7 @@ package com.WashingtonBookEx.mobileappapi.services;
 
 import java.util.List;
 
-import com.WashingtonBookEx.mobileappapi.domain.Book;
+import com.WashingtonBookEx.mobileappapi.models.Book;
 
 public interface BookService {
 	

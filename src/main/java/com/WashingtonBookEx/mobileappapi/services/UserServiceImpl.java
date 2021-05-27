@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.User;
 import com.WashingtonBookEx.mobileappapi.repositories.AuthRepository;
 import com.WashingtonBookEx.mobileappapi.repositories.UserRepository;
 
@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 	@Autowired
 	AuthRepository authRepository;
-	
+		
 	@Override
 	public User validateUser(String email, String password, String authKey) {
 		if (authRepository.authenticateKey(authKey)) {
 		
 			if(email != null) email = email.toLowerCase();
-			return userRepository.findByEmailAndPassword(email, password);	 
+				return userRepository.findByEmailAndPassword(email, password);	 
 		}
 		
 		throw new EtAuthException("Invalid authKey. Failed to authenticate user login.");

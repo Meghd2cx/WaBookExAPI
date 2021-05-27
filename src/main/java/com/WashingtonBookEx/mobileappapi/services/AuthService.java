@@ -1,6 +1,6 @@
 package com.WashingtonBookEx.mobileappapi.services;
 
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
 
 public interface AuthService {
 
