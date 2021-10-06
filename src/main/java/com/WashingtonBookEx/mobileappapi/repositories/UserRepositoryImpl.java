@@ -12,9 +12,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.User;
 
 
 @Repository

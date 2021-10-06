@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.WashingtonBookEx.mobileappapi.domain.Book;
+import com.WashingtonBookEx.mobileappapi.models.Book;
 
 @Repository
 public interface BookRepository {

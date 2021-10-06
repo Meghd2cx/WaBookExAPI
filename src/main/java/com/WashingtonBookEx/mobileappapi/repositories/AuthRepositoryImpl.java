@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.User;
 
 @Repository
 public class AuthRepositoryImpl implements AuthRepository {

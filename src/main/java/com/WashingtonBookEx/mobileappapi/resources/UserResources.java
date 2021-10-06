@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.services.AuthService;
 import com.WashingtonBookEx.mobileappapi.services.UserService;
-
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.User;
 import com.WashingtonBookEx.mobileappapi.repositories.AuthRepository;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +39,7 @@ public class UserResources {
 		String password = (String) userMap.get("password");
 		System.out.println("Query: " + userMap.toString());
 		User user = userService.validateUser(email, password, authKey);
+		user.setSessionKey(authService.addAuthKey(email, password).getAuthKeyValue());
 		
 		Map<String,Object> map = new HashMap<>();
 	
@@ -55,6 +56,7 @@ public class UserResources {
 		map.put("state", user.getState());
 		map.put("schoolName", user.getSchoolName());
 		map.put("isTeacher", user.getIsTeacher());
+		map.put("sessionKey", user.getSessionKey());
 		
 		
 		return new ResponseEntity<>(map,HttpStatus.OK);
@@ -78,12 +80,9 @@ public class UserResources {
 				
 		User inputUser = new User(username,firstName,lastName,email,birthDate,password,streetAddress,city,county,state,schoolName,isTeacher);
 		User user = userService.registerUser(inputUser, authKey);
-		//Map<String,String> map = new HashMap<>();
-		//map.put("message","registered successfully");
+		user.setSessionKey(authService.addAuthKey(email, password).getAuthKeyValue());
 		
 		return user;
-		//return new ResponseEntity<>(map,HttpStatus.OK);
 	}
-	
 	
 }

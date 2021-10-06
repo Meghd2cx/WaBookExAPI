@@ -1,8 +1,8 @@
 package com.WashingtonBookEx.mobileappapi.repositories;
 
-import com.WashingtonBookEx.mobileappapi.domain.AuthKey;
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.AuthKey;
+import com.WashingtonBookEx.mobileappapi.models.User;
 
 public interface UserRepository {
 

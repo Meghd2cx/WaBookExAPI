@@ -1,4 +1,4 @@
-package com.WashingtonBookEx.mobileappapi.domain;
+package com.WashingtonBookEx.mobileappapi.models;
 
 import java.util.Date;
 
@@ -17,6 +17,8 @@ public class User {
 	private String state;
 	private String schoolName;
 	private boolean isTeacher;
+	
+	private String sessionKey;
 	
 
 	public User(String username, String firstName, String lastName, String email, Date birthDate, 
@@ -183,4 +185,11 @@ public class User {
 		return this.isTeacher;
 	}
 	
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+	
+	public String getSessionKey() {
+		return this.sessionKey;
+	}
 }

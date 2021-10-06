@@ -1,7 +1,7 @@
 package com.WashingtonBookEx.mobileappapi.services;
 
-import com.WashingtonBookEx.mobileappapi.domain.User;
 import com.WashingtonBookEx.mobileappapi.exceptions.EtAuthException;
+import com.WashingtonBookEx.mobileappapi.models.User;
 
 
 public interface UserService {

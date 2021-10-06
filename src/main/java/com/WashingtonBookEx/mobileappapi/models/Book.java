@@ -1,4 +1,4 @@
-package com.WashingtonBookEx.mobileappapi.domain;
+package com.WashingtonBookEx.mobileappapi.models;
 
 public class Book {
 
